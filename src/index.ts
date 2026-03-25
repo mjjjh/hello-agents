@@ -1,11 +1,23 @@
+import SimpleAgent from "./agents/simpleAgent.js";
+import AddTool from "./utils/Tools/AddTool.js";
 import t from "term-style";
-import HelloAgentsLLM from "./llm.js";
+import { ToolExecutor } from "./tools/ToolExecutor.js";
 
-const llm = new HelloAgentsLLM();
+const agent = new SimpleAgent("TestAgent");
+agent.add_tool(new AddTool());
+t.table.render(
+  agent.list_tools().map((item) => ({ toolName: item })),
+  { headers: ["ToolsName"] },
+);
 
 async function main() {
-  const response = await llm.chat("你好");
-//   console.log("Final response:", response);
+  await agent.run("Hello, Agent!");
+  await agent.run("What is the sum of 10 and 987?");
 }
 
-main(); 
+main();
+
+// const toolExecutor = new ToolExecutor(agent.toolRegistry);
+
+// const result = toolExecutor.executeToolCall("add", '{"a": 1, "b": 2}');
+// t.bgRed.log(result);
