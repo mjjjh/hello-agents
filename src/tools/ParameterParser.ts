@@ -27,7 +27,7 @@ export class ParameterParser {
         parameters: string,
         paramDefs: ParamDefinition[] = []
     ): Record<string, any> {
-        parameters = parameters.trim();
+        parameters = parameters?.toString().trim();
 
         if (!parameters) {
             return {};

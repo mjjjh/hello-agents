@@ -90,10 +90,10 @@ describe("SimpleAgent", () => {
 
       const history = agent.getHistory();
       expect(history).toHaveLength(2);
-      expect(history[0].role).toBe("user");
-      expect(history[0].content).toBe("用户消息");
-      expect(history[1].role).toBe("assistant");
-      expect(history[1].content).toBe("AI 回复");
+      expect(history[0]?.role).toBe("user");
+      expect(history[0]?.content).toBe("用户消息");
+      expect(history[1]?.role).toBe("assistant");
+      expect(history[1]?.content).toBe("AI 回复");
     });
   });
 
@@ -135,8 +135,8 @@ describe("SimpleAgent", () => {
       const result = agent.parseToolCall(response);
 
       expect(result).toHaveLength(1);
-      expect(result![0].toolName).toBe("search");
-      expect(result![0].parameters).toBe('{"query": "Hello Agents"}');
+      expect(result![0]?.toolName).toBe("search");
+      expect(result![0]?.parameters).toBe('{"query": "Hello Agents"}');
     });
 
     it("应该解析多个工具调用", () => {
@@ -145,8 +145,8 @@ describe("SimpleAgent", () => {
       const result = agent.parseToolCall(response);
 
       expect(result).toHaveLength(2);
-      expect(result![0].toolName).toBe("search");
-      expect(result![1].toolName).toBe("calculator");
+      expect(result![0]?.toolName).toBe("search");
+      expect(result![1]?.toolName).toBe("calculator");
     });
 
     it("如果没有工具调用应该返回空数组", () => {

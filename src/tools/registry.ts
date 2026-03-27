@@ -1,6 +1,6 @@
 import t from "term-style";
 
-interface ToolParameters {
+export interface ToolParameters {
     // 工具参数定义
     name: string;
     type: string;
@@ -11,12 +11,16 @@ interface ToolParameters {
 
 // 工具抽象类
 export abstract class Tool {
-    constructor(public name: string, public description: string) {}
+    name: string;
+    description: string;
 
-    abstract run(args: any | any[]): any;
+    constructor (name: string, description: string) {
+        this.name = name;
+        this.description = description;
+    }
 
+    abstract run(args: any);
     abstract getParameters(): ToolParameters[];
-
 }
 
 // 工具注册表

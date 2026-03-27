@@ -136,13 +136,15 @@ class SimpleAgent extends Agent {
     // 如果超过最大迭代次数还没有得到模型回复，强制调用一次模型获取回复
     if (currentIteration >= maxToolIterations && lastResponse === "") {
       lastResponse = await this.llm.invoke(messages, kwargs);
+      messages.push(new Message("assistant", lastResponse));
     }
 
-    // 将用户输入和模型回复添加到历史
-    this.addMessage(
-      new Message("user", messages[messages.length - 1]?.content || ""),
-    );
-    this.addMessage(new Message("assistant", lastResponse));
+    // 保存对话历史（跳过 system 消息，因为每次都会重新构建）
+    messages.forEach((msg) => {
+      if (msg.role !== "system") {
+        this.addMessage(msg);
+      }
+    });
     return lastResponse;
   }
 
